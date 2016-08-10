@@ -1,11 +1,12 @@
+import atexit
+import json
+import ssl
+
 from pyVim import connect
 from pyVmomi import vim
 
-import atexit
-import ssl
-import json
+from config import vsphere_ip, vsphere_user, vsphere_password
 
-from zabbix_admin.config import vsphere_ip, vsphere_user, vsphere_password
 
 def get_dados_vm(virtual_machine):
     dados = {}
