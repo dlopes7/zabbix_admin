@@ -6,7 +6,7 @@ class OS(models.Model):
 
 
 class Server(models.Model):
-    os = models.ForeignKey(OS)
+    os = models.ForeignKey(OS, null=True)
     is_host = models.BooleanField(default=False)
     host_id = models.IntegerField(null=True)
     host_name = models.IntegerField(null=True)
