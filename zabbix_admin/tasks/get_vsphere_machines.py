@@ -67,6 +67,6 @@ if __name__ == '__main__':
         print(i, '/', len(children), dados['nome'])
 
 
-    with open('servidores.json', 'w') as arq:
+    with open('servidores_vsphere.json', 'w') as arq:
         json.dump(full_detalhes, arq)
 
