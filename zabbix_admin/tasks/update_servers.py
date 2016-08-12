@@ -1,4 +1,7 @@
+import os
 import json
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "zabbix_django.settings")
 
 from zabbix_admin.models import OS, Server
 
