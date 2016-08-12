@@ -9,9 +9,9 @@ class OS(models.Model):
 class Server(models.Model):
     os = models.ForeignKey(OS, null=True)
     is_host = models.BooleanField(default=False)
-    host_id = models.IntegerField(null=True)
-    host_name = models.IntegerField(null=True)
-    is_ignored = models.BooleanField(default=False, null=True)
+    host_id = models.IntegerField(null=True, unique=True)
+    host_name = models.CharField(max_length=255, null=True)
+    is_ignored = models.BooleanField(default=False)
     name = models.CharField(max_length=255)
     ip =  models.CharField(max_length=255, null=True)
 

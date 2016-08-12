@@ -15,7 +15,7 @@ if __name__ == '__main__':
     for host in host_response:
         hosts.append({'nome': host['host'],
                       'ip': host['interfaces'][0]['ip'],
-                      'host_id': host['hostid']})
+                      'host_id': int(host['hostid'])})
 
 
     with open('servidores_zabbix.json', 'w') as arq:
