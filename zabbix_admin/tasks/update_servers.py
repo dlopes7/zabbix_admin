@@ -12,21 +12,38 @@ django.setup()
 
 print(sys.path)
 
+
+
 from zabbix_admin.models import OS, Server
 
 
-if __name__ == '__main__':
-    servers = []
+def populate_from_zabbix():
+
     with open('servidores_zabbix.json', 'r') as servidores_zabbix:
         servers = json.load(servidores_zabbix)
 
 
     for server in servers:
-        new_server, created  = Server.objects.get_or_create(is_host=True,
+        new_server, created = Server.objects.get_or_create(is_host=True,
                             host_name=server['nome'],
                             name=server['nome'],
                             ip=server['ip'],
                             host_id=server['host_id'])
-        
+
         print(created, server)
         new_server.save()
+
+def populate_from_vsphere():
+    with open('servidores_vsphere.json', 'r') as servidores_zabbix:
+        servers = json.load(servidores_zabbix)
+
+    for server in servers:
+        print(server)
+
+
+if __name__ == '__main__':
+    #populate_from_zabbix()
+    populate_from_vsphere()
+
+
+
