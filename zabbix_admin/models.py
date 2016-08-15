@@ -20,7 +20,7 @@ class Server(models.Model):
     host_name = models.CharField(max_length=255, null=True)
     is_ignored = models.BooleanField(default=False)
     name = models.CharField(max_length=255)
-    ip =  models.CharField(max_length=255, null=True)
+    ip =  models.CharField(max_length=255, null=True, unique=True)
 
     def __str__(self):
         return '{name} ({is_host})'.format(name=self.name,

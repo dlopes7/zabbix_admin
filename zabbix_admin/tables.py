@@ -4,11 +4,12 @@ from zabbix_admin.models import Server
 
 class ServerTable(tables.Table):
 
-    ignorar = tables.TemplateColumn(template_name='ignorar.html',
-                                    orderable=False)
+    instalar = tables.TemplateColumn(template_name='ignorar.html',
+                                    orderable=False,
+                                     verbose_name='Instalar')
 
     class Meta:
         model = Server
 
-        fields = ('is_host', 'name', 'ip', 'os', 'host_id', 'ignorar')
+        fields = ('is_host', 'name', 'ip', 'os', 'host_id', 'instalar')
         attrs = {'class': 'paleblue'}

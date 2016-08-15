@@ -19,26 +19,30 @@ from django.db.models import Q
 
 
 def populate_from_zabbix():
+    arquivo = os.path.dirname(os.path.realpath(__file__)) + '/servidores_zabbix.json'
 
-    with open('servidores_zabbix.json', 'r') as servidores_zabbix:
+    with open(arquivo, 'r') as servidores_zabbix:
         servers = json.load(servidores_zabbix)
 
 
     for server in servers:
-        new_server, created = Server.objects.get_or_create(is_host=True,
-                            host_name=server['nome'],
-                            name=server['nome'],
-                            ip=server['ip'],
-                            host_id=server['host_id'])
+        new_server, created = Server.objects.get_or_create(
+                            host_name=server['nome'])
 
         print(created, server)
+        new_server.is_host = True
+        new_server.host_id = server['host_id']
+        new_server.host_name = server['nome']
+        new_server.name = server['nome']
+        new_server.ip = server['ip']
+
         new_server.save()
 
+
 def populate_from_vsphere():
-    with open('servidores_vsphere.json', 'r') as servidores_zabbix:
+    arquivo = os.path.dirname(os.path.realpath(__file__)) + '/servidores_vsphere.json'
+    with open(arquivo, 'r') as servidores_zabbix:
         servers = json.load(servidores_zabbix)
-
-
 
     for server in servers:
         new_os, created = OS.objects.get_or_create(name=server['os'])
@@ -64,10 +68,12 @@ def populate_from_vsphere():
 
 
 
+def main():
+    populate_from_zabbix()
+    populate_from_vsphere()
 
 if __name__ == '__main__':
-    #populate_from_zabbix()
-    populate_from_vsphere()
+    main()
 
 
 

@@ -3,6 +3,7 @@
 import atexit
 import json
 import ssl
+import os
 
 from pyVim import connect
 from pyVmomi import vim
@@ -67,6 +68,7 @@ if __name__ == '__main__':
         print(i, '/', len(children), dados['nome'])
 
 
-    with open('servidores_vsphere.json', 'w') as arq:
+    arquivo = os.path.dirname(os.path.realpath(__file__)) + '/servidores_vsphere.json'
+    with open(arquivo, 'w') as arq:
         json.dump(full_detalhes, arq)
 

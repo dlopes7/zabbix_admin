@@ -1,10 +1,13 @@
-from config import zabbix_user, zabbix_pwd
-
+try:
+    from config import zabbix_user, zabbix_pwd
+except:
+    from zabbix_admin.tasks.config import zabbix_user, zabbix_pwd
 import json
+import os
 
 from zabbix_api import ZabbixAPI
 
-if __name__ == '__main__':
+def main():
     zapi = ZabbixAPI(server='http://zabbix-server01.dc.nova/zabbix')
     zapi.login(zabbix_user, zabbix_pwd)
 
@@ -18,5 +21,10 @@ if __name__ == '__main__':
                       'host_id': int(host['hostid'])})
 
 
-    with open('servidores_zabbix.json', 'w') as arq:
+    arquivo = os.path.dirname(os.path.realpath(__file__)) + '/servidores_zabbix.json'
+    with open(arquivo, 'w') as arq:
         json.dump(hosts, arq)
+
+
+if __name__ == '__main__':
+    main()

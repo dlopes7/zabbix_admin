@@ -3,3 +3,4 @@ django-tables2
 psycopg2
 pyvmomi
 zabbix_api
+sh
