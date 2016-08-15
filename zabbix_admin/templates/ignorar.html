@@ -1,0 +1,9 @@
+{% load render_table from django_tables2 %}
+<!doctype html>
+<html>
+    {% if record.is_host %}
+        -
+    {% else %}
+         <img rel="stylesheet" src="{{ STATIC_URL }}images/install-icon.png" />
+    {% endif %}
+</html>

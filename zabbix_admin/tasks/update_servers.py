@@ -15,6 +15,7 @@ print(sys.path)
 
 
 from zabbix_admin.models import OS, Server
+from django.db.models import Q
 
 
 def populate_from_zabbix():
@@ -37,13 +38,37 @@ def populate_from_vsphere():
     with open('servidores_vsphere.json', 'r') as servidores_zabbix:
         servers = json.load(servidores_zabbix)
 
+
+
     for server in servers:
-        print(server)
+        new_os, created = OS.objects.get_or_create(name=server['os'])
+
+        if server['ip'] is not None:
+            try:
+                server_zabbix = Server.objects.get(ip=server['ip'])
+
+                server_zabbix.os = new_os
+                server_zabbix.save()
+
+            except:
+                print(server['ip'], 'does not exist')
+                try:
+                    server_zabbix = Server.objects.get(name=server['nome'])
+                except:
+                    print(server, 'does not exist')
+                    server_vsphere = Server.objects.get_or_create(name=server['nome'],
+                                                                  ip=server['ip'],
+                                                                  is_host=False,
+                                                                  os=new_os
+                                                                  )
+
+
 
 
 if __name__ == '__main__':
     #populate_from_zabbix()
     populate_from_vsphere()
+
 
 
 

@@ -5,7 +5,7 @@ class OS(models.Model):
     tipo = models.CharField(max_length=10, choices=(('Linux', 'Linux'), ('Windows', 'Windows')))
 
     def __str__(self):
-        return '{tipo} ({name})'.format(name=self.name,
+        return '{name}'.format(name=self.name,
                                                          tipo=self.tipo)
 
     class Meta:
