@@ -26,45 +26,66 @@ def populate_from_zabbix():
 
 
     for server in servers:
+        print(server)
         new_server, created = Server.objects.get_or_create(
-                            host_name=server['nome'])
+                            ip=server['ip'])
 
-        print(created, server)
+        #print('ZABBIX', created, server)
         new_server.is_host = True
         new_server.host_id = server['host_id']
         new_server.host_name = server['nome']
         new_server.name = server['nome']
         new_server.ip = server['ip']
 
-        new_server.save()
+        try:
+            new_server.save()
+        except Exception as e:
 
+            print('Erro:', e)
+            continue
+
+        #print('ZABBIX', server, new_server.is_host)
 
 def populate_from_vsphere():
     arquivo = os.path.dirname(os.path.realpath(__file__)) + '/servidores_vsphere.json'
-    with open(arquivo, 'r') as servidores_zabbix:
-        servers = json.load(servidores_zabbix)
+    with open(arquivo, 'r') as servidores_vsphere:
+        servers = json.load(servidores_vsphere)
 
     for server in servers:
-        new_os, created = OS.objects.get_or_create(name=server['os'])
-
         if server['ip'] is not None:
-            try:
-                server_zabbix = Server.objects.get(ip=server['ip'])
+            new_os, created = OS.objects.get_or_create(name=server['os'])
 
+
+            try:
+                server_zabbix = Server.objects.get(name=server['nome'])
+                #print('VSPHERE', 'Setando OS para', server_zabbix, new_os)
                 server_zabbix.os = new_os
+                server_zabbix.state = server['state']
                 server_zabbix.save()
 
             except:
-                print(server['ip'], 'does not exist')
+
                 try:
-                    server_zabbix = Server.objects.get(name=server['nome'])
-                except:
-                    print(server, 'does not exist')
-                    server_vsphere = Server.objects.get_or_create(name=server['nome'],
-                                                                  ip=server['ip'],
-                                                                  is_host=False,
-                                                                  os=new_os
-                                                                  )
+                    server_zabbix = Server.objects.get(ip=server['ip'])
+                    server_zabbix.os = new_os
+                    server_zabbix.state = server['state']
+                    server_zabbix.save()
+
+
+
+                except Exception as e:
+                    print('VSPHERE', server['nome'], 'does not exist on zabbix')
+                    try:
+                        server_vsphere, created = Server.objects.get_or_create(name=server['nome'],
+                                                                      ip=server['ip'],
+                                                                      is_host=False,
+                                                                      os=new_os,
+                                                                      state=server['state']
+                                                                      )
+
+                        server_vsphere.save()
+                    except Exception as e:
+                        print('VSPHERE', 'ERRO:', server, e)
 
 
 
