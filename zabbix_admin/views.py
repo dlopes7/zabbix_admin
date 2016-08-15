@@ -11,6 +11,8 @@ def get_table():
         Server.objects.filter(Q(is_ignored=False) & ~Q(name__icontains='HLG') & ~Q(name__icontains='QA') & ~Q(
             name__icontains='TEMPLATE') & ~Q(name__icontains=' ') & ~Q(name__icontains='ligar')))
 
+#& Q(os__name__icontains='windows') & Q(is_host=False))
+
 
 
 def servers(request):

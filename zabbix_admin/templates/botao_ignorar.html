@@ -4,8 +4,8 @@
     {% if record.is_host %}
 
     {% else %}
-        <a href="/instalar/{{ record.id }}">
-            <img rel="stylesheet" src="{{ STATIC_URL }}images/install-icon.png" />
+        <a name="ignore" id="{{ record.id }}" href="#">
+            <img rel="stylesheet" src="{{ STATIC_URL }}images/ignore.png" />
         </a>
 
     {% endif %}

@@ -1,7 +1,7 @@
 {% load render_table from django_tables2 %}
 <!doctype html>
 <html>
-    {% if record.is_host %}
+    {% if record.is_host  or 'Windows' not in record.os.name %}
 
     {% else %}
         <a href="/instalar/{{ record.id }}">

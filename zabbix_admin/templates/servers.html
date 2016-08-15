@@ -3,8 +3,20 @@
 <html>
     <head>
         <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+        <script src="{{ STATIC_URL }}js/jquery-3.1.0.min.js"></script>
     </head>
     <body>
         {% render_table table %}
+    <script language="JavaScript">
+        $( "a[name='ignore']" ).click(function () {
+
+                $.ajax({
+                    url: "/ignorar/" + $(this).attr("id"), success: function (result) {
+                        location.reload();
+                    }
+                });
+            });
+
+        </script>
     </body>
 </html>
